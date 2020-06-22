@@ -24,7 +24,8 @@ class ModelTests(TestCase):
         self.assertTrue(user.email, email)
 
     def test_new_user_email_normalized(self):
-        '''Test the email for a new user is normalized i.e. converted to lowercase'''
+        '''Test the email for a new user is normalized i.e.
+        converted to lowercase'''
         email = 'ovansa@GMAIL.COM'
         user = get_user_model().objects.create_user(email, 'test123')
 
