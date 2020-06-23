@@ -1,7 +1,7 @@
 # countries_api
 An API for fetching the list of countries, states, and cities
 
-# Looks through Dockerfile for first steps in creating a docker image
+<!-- # Looks through Dockerfile for first steps in creating a docker image
 
 # Create app folder and a requirements.txt file
 
@@ -25,4 +25,4 @@ An API for fetching the list of countries, states, and cities
 
 # Use "docker-compose run app sh -c "python manage.py makemigrations core"" to run migrations after creating models
 
-# Use "docker-compose build" to build dockerfile
+# Use "docker-compose build" to build dockerfile -->
