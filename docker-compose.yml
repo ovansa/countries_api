@@ -10,4 +10,21 @@ services:
     volumes:
       - ./app:/app
     command: > # Defines the command for running project
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py wait_for_db &&
+            python manage.py migrate &&
+            python manage.py runserver 0.0.0.0:8000" # Use "docker-command up" command to run this command
+    environment: # Set environment to match database service
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecretpassword
+    depends_on: # Starts the services before starting app
+      - db
+
+
+  db:
+    image: postgres:10-alpine # This image can be found in Docker Repository
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretpassword

@@ -24,3 +24,5 @@ An API for fetching the list of countries, states, and cities
 # Create a core app using "docker-compose run app sh -c "python manage.py startapp core"
 
 # Use "docker-compose run app sh -c "python manage.py makemigrations core"" to run migrations after creating models
+
+# Use "docker-compose build" to build dockerfile
