@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
-from django.contrib.auth import get_user_model #
-from django.urls import reverse #To generate urls for django admin page
+from django.contrib.auth import get_user_model
+from django.urls import reverse  # To generate urls for django admin page
 
 
 class AdminSitesTests(TestCase):
