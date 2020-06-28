@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
                                         PermissionsMixin
+from django.conf import settings  # Best practice to import foreign keys
 
 
 # Create User Manager class
@@ -42,3 +43,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
     # Note: Make migrations after creating models
+
+
+# Create tag model
+class Country(models.Model):
+    '''Tag to be used for categorising countries'''
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.name
