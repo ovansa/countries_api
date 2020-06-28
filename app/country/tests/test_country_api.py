@@ -69,3 +69,24 @@ class PrivateClassApiTest(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 2)
         self.assertEqual(res.data[0]['name'], country1.name)
+
+    def test_create_country_successful(self):
+        '''Test creating a new country'''
+        payload = {
+            'name': 'Nigeria'
+        }
+        self.client.post(COUNTRY_URL, payload)
+
+        exists = Country.objects.filter(
+            user=self.user,
+            name=payload['name']
+        ).exists()
+
+        self.assertTrue(exists)
+
+    def test_create_country_invalid(self):
+        '''Test creating a new country with invalid payload'''
+        payload = {'name': ''}
+        res = self.client.post(COUNTRY_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)

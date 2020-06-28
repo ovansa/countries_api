@@ -7,7 +7,8 @@ from core.models import Country
 from country import serializers
 
 
-class CountryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+class CountryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin,
+                     mixins.CreateModelMixin):
     '''Manage countries in the database'''
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -17,3 +18,7 @@ class CountryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
     def get_queryset(self):
         '''Returns objects for the current authenticated user only'''
         return self.queryset.filter(user=self.request.user).order_by('-name')
+
+    def perform_create(self, serializer):
+        '''Create a new country'''
+        serializer.save(user=self.request.user)
