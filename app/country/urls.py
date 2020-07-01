@@ -6,6 +6,7 @@ from country import views
 
 router = DefaultRouter()
 router.register('country', views.CountryViewSet)
+router.register('state', views.StateViewSet)
 
 app_name = 'country'
 

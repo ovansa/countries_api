@@ -52,7 +52,8 @@ class PrivateClassApiTest(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
-    def test_tag_limited_to_user(self):
+    def test_country_limited_to_user(self):
+        '''Test countries returned are limited to the authenticated user'''
         user2 = get_user_model().objects.create_user(
             'ov@gmail.com',
             'password'
@@ -67,7 +68,7 @@ class PrivateClassApiTest(TestCase):
         res = self.client.get(COUNTRY_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(res.data), 2)
+        self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data[0]['name'], country1.name)
 
     def test_create_country_successful(self):
