@@ -52,7 +52,7 @@ class ModelTests(TestCase):
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
 
-    def test_Country_str(self):
+    def test_country_str(self):
         '''Test the tag string representation'''
         tag = models.Country.objects.create(
             user=sample_user(),
@@ -69,3 +69,12 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(states), states.name)
+
+    def test_place_str(self):
+        '''Test the place string representation'''
+        place = models.Place.objects.create(
+            user=sample_user(),
+            name='Ipaja',
+        )
+
+        self.assertEqual(str(place), place.name)

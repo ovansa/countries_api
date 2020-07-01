@@ -7,6 +7,7 @@ from core.models import Country, State
 from country import serializers
 
 
+# Re-factor country and state viewsets to BaseCountryAttrViewset
 class BaseCountryAttrViewset(viewsets.GenericViewSet, mixins.ListModelMixin,
                              mixins.CreateModelMixin):
     '''Base viewset for user owned country attributes'''

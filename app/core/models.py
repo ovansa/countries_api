@@ -66,3 +66,17 @@ class State(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Place(models.Model):
+    '''Place object'''
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    name = models.CharField(max_length=255)
+    state = models.ManyToManyField('State')
+    country = models.ManyToManyField('Country')
+
+    def __str__(self):
+        return self.name
