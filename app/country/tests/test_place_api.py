@@ -104,3 +104,53 @@ class PrivateRecipeApiTests(TestCase):
         serializer = PlaceDetailSerializer(place)
 
         self.assertEqual(res.data, serializer.data)
+
+    def test_create_basic_place(self):
+        '''Test creating place'''
+        payload = {
+            'name': 'Ipaja'
+        }
+
+        res = self.client.post(PLACE_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        place = Place.objects.get(id=res.data['id'])
+
+        for key in payload.keys():
+            self.assertEqual(payload[key], getattr(place, key))
+
+    def test_create_place_with_country(self):
+        '''Test create place with country'''
+        country1 = sample_country(user=self.user, name='Nigeria')
+        # country2 = sample_country(user=self.user, name='Benin Republic')
+        payload = {
+            'name': 'Ipaja',
+            'country': [country1.id]
+        }
+
+        res = self.client.post(PLACE_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+
+        place = Place.objects.get(id=res.data['id'])
+        countries = place.country.all()
+        self.assertEqual(countries.count(), 1)
+        self.assertIn(country1, countries)
+
+    def test_create_place_with_state(self):
+        '''Test create place with state'''
+        state1 = sample_state(user=self.user, name='Lagos')
+        # state2 = sample_state(user=self.user, name='Oyo')
+        payload = {
+            'name': 'Ikeja',
+            'state': [state1.id]
+        }
+
+        res = self.client.post(PLACE_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+
+        place = Place.objects.get(id=res.data['id'])
+        states = place.state.all()
+        self.assertEqual(states.count(), 1)
+        self.assertIn(state1, states)

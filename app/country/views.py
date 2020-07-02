@@ -51,3 +51,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve':
             return serializers.PlaceDetailSerializer
         return self.serializer_class
+
+    def perform_create(self, serializer):
+        '''Create a new place'''
+        serializer.save(user=self.request.user)
