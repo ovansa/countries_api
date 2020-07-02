@@ -18,7 +18,7 @@ def detail_url(place_id):
     return reverse('country:place-detail', args=[place_id])
 
 
-def sample_country(user, name='Nigeria'):
+def sample_country(user, name='Chad'):
     '''Create and return a sample country'''
     return Country.objects.create(user=user, name=name)
 
@@ -154,3 +154,38 @@ class PrivateRecipeApiTests(TestCase):
         states = place.state.all()
         self.assertEqual(states.count(), 1)
         self.assertIn(state1, states)
+
+    def test_partial_update_place(self):
+        '''Test updating a recipe with a patch'''
+        place = sample_place(user=self.user)
+        place.country.add(sample_country(user=self.user))
+        new_country = sample_country(user=self.user, name='Botswana')
+
+        payload = {'name': 'Cameroon', 'country': [new_country.id]}
+
+        url = detail_url(place.id)
+        self.client.patch(url, payload)
+
+        place.refresh_from_db()
+
+        self.assertEqual(place.name, payload['name'])
+        countries = place.country.all()
+
+        self.assertEqual(len(countries), 1)
+        self.assertIn(new_country, countries)
+
+    def test_full_update_recipe(self):
+        '''Test updating recipe with PUT'''
+        place = sample_place(user=self.user)
+        place.country.add(sample_country(user=self.user))
+        payload = {
+            'name': 'Ghana'
+        }
+
+        url = detail_url(place.id)
+        self.client.put(url, payload)
+
+        place.refresh_from_db()
+        self.assertEqual(place.name, payload['name'])
+        countries = place.country.all()
+        self.assertEqual(len(countries), 0)
